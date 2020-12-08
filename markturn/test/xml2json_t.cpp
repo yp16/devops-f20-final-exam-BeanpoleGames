@@ -1,7 +1,7 @@
 /*
-    json2xml_t.cpp
+    xml2json_t.cpp
 
-    Test program for JSON to XML conversions
+    Test program for XML to JSON conversions
 */
 
 #include "markturn.hpp"
