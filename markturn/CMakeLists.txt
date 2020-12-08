@@ -2,7 +2,6 @@
 
 cmake_minimum_required(VERSION 3.18.4)
 
-# project info # @NOTE Comment doesn't add anything
 project(markturn VERSION "1.0.0")
 
 option(LINK_STATIC "Build with static library" OFF)
@@ -38,19 +37,16 @@ target_include_directories(markturn PUBLIC src)
 
 install(TARGETS markturn RUNTIME)
 
-# @NOTE Why isn't an object library used?
-# libraries
+# Libraries
 file(GLOB LIBRARY_SOURCES "src/*.cpp")
 
-# @NOTE Use variable for long lists of duplicated libraries and include files
-# static libmarkturn
+# Static libmarkturn Library
 add_library(libmarkturn STATIC ${LIBRARY_SOURCES})
 target_include_directories(libmarkturn PUBLIC ${CURL_INCLUDE_DIR} ${YAML_CPP_INCLUDE_DIR} ${LIBXML2_INCLUDE_DIR} ${JSONCPP_INCLUDE_DIRS} /usr/include/yaml-cpp /usr/include/jsoncpp .)
 target_link_libraries(libmarkturn PUBLIC ${CURL_LIBRARY} ${LIBXML2_LIBRARY} ${YAML_CPP_LIBRARY} ${JSONCPP_LIBRARIES})
+install(TARGETS libmarkturn LIBRARY)
 
-install(TARGETS libmarkturn LIBRARY)  # @NOTE This is part of the proceeding paragraph
-
-# shared libmarkturn library
+# Shared libmarkturn Library
 add_library(libmarkturn_shared SHARED ${LIBRARY_SOURCES})
 target_include_directories(libmarkturn_shared PUBLIC ${CURL_INCLUDE_DIR} ${YAML_CPP_INCLUDE_DIR} ${LIBXML2_INCLUDE_DIR} ${JSONCPP_INCLUDE_DIRS} /usr/include/yaml-cpp /usr/include/jsoncpp .)
 target_link_libraries(libmarkturn_shared PUBLIC ${CURL_LIBRARY} ${LIBXML2_LIBRARY} ${YAML_CPP_LIBRARY} ${JSONCPP_LIBRARIES})
@@ -60,7 +56,7 @@ set_target_properties(libmarkturn_shared PROPERTIES SDVERSION ${PROJECT_VERSION_
 
 install(TARGETS libmarkturn_shared LIBRARY) # @NOTE This is part of the proceeding paragraph
 
-# Setup testing
+# Setup Testing
 enable_testing()
 
 file(GLOB TEST_SOURCES "test/*.cpp")
@@ -73,11 +69,9 @@ foreach(TESTFILE ${TEST_SOURCES})
 endforeach()
 
 # Generate Simple Package
-# @NOTE Keep comments consistent, even with capitalization, i.e., "Generate simple package"
 set(CPACK_PACKAGE_NAME "markturnpack")
 set(CPACK_PACKAGE_VERSION_MAJOR "1")
 set(CPACK_PACKAGE_VERSION_MINOR "0")
 set(CPACK_PACKAGE_VERSION_PATCH "0")
 set(CPACK_PACKAGE_CONTACT "jpp52@zips.uakron.edu")
 include(CPack)
-# @NOTE Leave a single, blank line at the end of the file
