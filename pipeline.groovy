@@ -1,25 +1,20 @@
 pipeline {
     agent {
-    	docker {
-    		image 'jenkins'
+        docker {
+            image 'jpp52'
             args '--user root'
-    	}
+        }
     }
 
     stages {
         stage('Setup') {
             steps {
-                sh 'cat /etc/os-release'
-                sh 'rm -rf markturn-BeanpoleGames'
-                sh 'git clone https://github.com/UAComputerScience/markturn-BeanpoleGames.git'
-                sh 'cd markturn-BeanpoleGames'
+                git branch: 'main', credentialsId: 'GitHub', url: 'https://github.com/UAComputerScience/markturn-BeanpoleGames.git'
             }
-           
         }
-        stage('CMake'){
-            steps{
-                sh 'mkdir -p finalbuild'
-                sh 'cd finalbuild; pwd; cmake ../markturn-BeanpoleGames -G Ninja'
+        stage('CMake') {
+            steps {
+                cmakeBuild buildDir: 'build', cmakeArgs: '-D LINK_STATIC=OFF', generator: 'Ninja', installation: 'cmake'
             }
         }
         stage('Build') {
@@ -29,12 +24,12 @@ pipeline {
         }
         stage('Test') {
             steps {
-                ctest installation: 'cmake', workingDir: 'finalbuild'
+                ctest installation: 'cmake', workingDir: 'build'
             }
         }
         stage('Package') {
             steps {
-                cpack arguments: '-G DEB', installation: 'cmake', workingDir: 'finalbuild'
+                cpack arguments: '-G DEB', installation: 'cmake', workingDir: 'build'
             }
         }
     }
