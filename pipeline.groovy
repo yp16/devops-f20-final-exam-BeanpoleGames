@@ -33,4 +33,10 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'build/*.deb', onlyIfSuccessful: true
+        }
+    }
 }
