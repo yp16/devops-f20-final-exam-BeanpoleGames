@@ -9,5 +9,7 @@ Jenkins and CircleCi essentially have the same functionallity, and their major d
 ## My Features
 
 ### Ansi Color
+Ansi Color is plugin that adds support for standard ANSI escape sequences, including color, to Console Output. In my Jenkins Pipeline, I used it to highlight the different stages throughout the pipeline. When a user reads the console output, they will be able to locate particular stages easier by seeing the colored text.
 
 ### Archive Artifacts
+Archive Artifacts allows build artifacts to be stored away to be downloaded later. Archived files are accessible from the Jenkins webpage as long as the build remains. I used this in the project to archive the .deb package on a success of the stages to be able to download later.
